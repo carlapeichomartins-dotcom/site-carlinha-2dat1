@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <nav class="menu">
+        <a href="index.html" class="link">Home</a>
+        <a href="galeria.html" class="link">Outros Cantores</a>
+        <a href="chat.html" class="link">Conversar com Henrique e Juliano</a>
+        <a href="hej.html" class="link">Cadastro</a>
+        <a href="login.html" class="link">Login</a>
+    </nav>
+    
+    <div class="box-container">
+        <h1>Login</h1>
+
+        <label for="loginEmail">Email</label><br>
+        <input type="email" id="loginEmail" placeholder="Digite seu email" required><br><br>
+
+        <label for="loginSenha">Senha</label><br>
+        <input type="password" id="loginSenha" placeholder="Digite sua senha" required><br><br>
+
+        <button id="btnlogin">Enviar</button>
+        <div id="loginMensagem"></div>
+    </div>
+
+    <footer> &copy; Desenvolvido por Carla 2dat1 - 2026 Curitiba</footer>
+
+    <script>
+        const btnlogin = document.querySelector('#btnlogin');
+        const loginMensagem = document.querySelector('#loginMensagem');
+
+        btnlogin.addEventListener('click', async ()=>{
+            const emailEntrada = document.querySelector('#loginEmail');
+            const senhaEntrada = document.querySelector('#loginSenha');
+
+            const email = emailEntrada.value;
+            const senha = senhaEntrada.value;
+
+            if (!email || !senha) {
+                loginMensagem.innerText = 'Preencha todos os campos antes de enviar!'
+                loginMensagem.style.color = 'red';
+                return;
+            }
+
+            loginMensagem.innerText = 'Dados enviados aguarde 5 segundos...';
+            loginMensagem.style.color = 'orange';
+
+            try {
+                const respostaBE = await fetch('https://site-carlinha-2dat1.onrender.com/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        email: email,
+                        senha: senha
+                    })
+                });
+
+                const dados = await respostaBE.json();
+
+                if(!respostaBE.ok) {
+                    loginMensagem.innerText = `${dados.erro}`;
+                    loginMensagem.style.color = 'red';
+                    return;
+                }
+
+                loginMensagem.innerText = `${dados.mensagem}: ${dados.perfil}`;
+                loginMensagem.style.color = 'green';
+
+                emailEntrada.value = '';
+                senhaEntrada.value = '';
+            }
+            catch(erro) {
+                console.error('Erro na requisição:', erro);
+                loginMensagem.innerText = 'Erro ao conectar com o servidor!!';
+                loginMensagem.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

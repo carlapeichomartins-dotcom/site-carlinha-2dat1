@@ -1,0 +1,20 @@
+{
+   "name": "server",
+   "version": "1.0.0",
+   "main": "server.js",
+   "type": "module",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "node server.js"
+   },
+   "keywords": [],
+   "author": "Laisa Lauer de Danieli",
+   "license": "ISC",
+   "description": "Site sobre personagem conectado com API GROQ",
+   "dependencies": {
+      "cors": "^2.8.6",
+      "dotenv": "^18.0.3",
+      "express": "^5.2.1",
+      "gitignore": "^0.7.0"
+   }
+}
